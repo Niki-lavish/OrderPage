@@ -1,30 +1,31 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
+  <div id="app">
+    <router-view />
   </div>
-  <HelloWorld msg="Vite + Vue" />
 </template>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+<script setup>
+// This component now only serves as a container for the router view.
+</script>
+
+<style>
+:root {
+  --primary-color: #ff75a8; /* Dreamy Pink */
+  --secondary-color: #a0c4ff; /* Sky Blue */
+  --background-color: #faf8ff; /* Soft Lilac */
+  --text-color: #4a4a4a; /* Dark Taupe */
+  --primary-glow: 0 4px 15px rgba(255, 117, 168, 0.3);
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+
+body {
+  font-family: 'Nunito', sans-serif;
+  margin: 0;
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+
+#app {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 </style>

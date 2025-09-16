@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "name": "Classic Burger",
+    "description": "A juicy beef patty with lettuce, tomato, and cheese.",
+    "price": 12.99,
+    "category": "Main Courses",
+    "image": "https://source.unsplash.com/random/800x600?burger"
+  },
+  {
+    "id": 2,
+    "name": "Margherita Pizza",
+    "description": "Classic pizza with tomato, mozzarella, and basil.",
+    "price": 15.99,
+    "category": "Main Courses",
+    "image": "https://source.unsplash.com/random/800x600?pizza"
+  },
+  {
+    "id": 3,
+    "name": "Caesar Salad",
+    "description": "Crisp romaine lettuce with Caesar dressing and croutons.",
+    "price": 8.99,
+    "category": "Starters",
+    "image": "https://source.unsplash.com/random/800x600?salad"
+  },
+  {
+    "id": 4,
+    "name": "French Fries",
+    "description": "Golden crispy fries served with ketchup.",
+    "price": 4.99,
+    "category": "Starters",
+    "image": "https://source.unsplash.com/random/800x600?fries"
+  },
+  {
+    "id": 5,
+    "name": "Chocolate Cake",
+    "description": "Rich and decadent chocolate cake.",
+    "price": 6.99,
+    "category": "Desserts",
+    "image": "https://source.unsplash.com/random/800x600?cake"
+  },
+  {
+    "id": 6,
+    "name": "Ice Cream Sundae",
+    "description": "Vanilla ice cream with chocolate sauce and a cherry on top.",
+    "price": 5.99,
+    "category": "Desserts",
+    "image": "https://source.unsplash.com/random/800x600?sundae"
+  }
+]
