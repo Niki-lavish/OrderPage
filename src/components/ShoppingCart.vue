@@ -11,6 +11,7 @@
           <div v-for="(item, index) in cart" :key="item.cartId" class="cart-item">
             <div class="item-info">
               <h4>
+                <span class="item-number">{{ index + 1 }}.</span>
                 {{ item.quantity }}x {{ item.name }}
                 <span v-if="item.size" class="size-indicator">({{ formatSize(item.size) }})</span>
               </h4>
@@ -123,6 +124,11 @@ const closeCart = () => {
 .cart-items { overflow-y: auto; max-height: 50vh; }
 .cart-item { display: flex; justify-content: space-between; align-items: flex-start; padding: 1rem 0; border-bottom: 1px solid #eee; }
 .item-info h4 { margin: 0 0 0.5rem; }
+.item-number {
+  font-weight: bold;
+  color: #f57c00;
+  margin-right: 0.5rem;
+}
 .item-actions { display: flex; align-items: center; gap: 1rem; }
 .item-actions span { font-weight: bold; }
 .remove-btn { background: none; border: none; color: #f00; cursor: pointer; padding: 0; }
