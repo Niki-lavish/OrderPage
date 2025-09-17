@@ -1,7 +1,7 @@
 <template>
   <div>
     <header>
-      <h1>點餐系統</h1>
+      <h1>獨角獸的料理室</h1>
       <div class="cart-icon-container" @click="isCartOpen = true">
         <span class="material-symbols-outlined">shopping_cart</span>
         <span v-if="cart.length > 0" class="cart-badge">{{ cart.length }}</span>
@@ -101,8 +101,9 @@ header {
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  background: #fff;
-  border-bottom: 1px solid #ddd;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(224, 207, 252, 0.5);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -111,6 +112,9 @@ header {
 h1 {
   margin: 0;
   font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  text-shadow: 0 0 8px rgba(255, 117, 168, 0.5);
 }
 
 .cart-icon-container {
@@ -122,19 +126,21 @@ h1 {
   position: absolute;
   top: -5px;
   right: -10px;
-  background-color: #f57c00; /* Original Orange */
+  background-color: var(--primary-color); /* Use theme color */
   color: white;
   border-radius: 50%;
   padding: 2px 6px;
   font-size: 0.75rem;
+  box-shadow: var(--primary-glow);
 }
 
 .category-nav {
   position: sticky;
-  top: 61px; /* Height of the header */
-  background: #fff;
+  top: 65px; /* Adjust based on new header height */
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(8px);
   padding: 0.75rem 2rem;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid rgba(224, 207, 252, 0.4);
   z-index: 99;
   display: flex;
   justify-content: center;
@@ -143,19 +149,22 @@ h1 {
 
 .category-nav button {
   padding: 0.5rem 1.5rem;
-  border: 1px solid #ddd;
+  border: 1px solid transparent;
   border-radius: 20px;
-  background-color: #f9f9f9;
+  background-color: rgba(255, 255, 255, 0.5);
+  color: var(--text-color);
   cursor: pointer;
   font-size: 0.9rem;
   font-weight: 500;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
 }
 
 .category-nav button:hover {
-  background-color: #f57c00;
+  background-color: var(--primary-color);
   color: white;
-  border-color: #f57c00;
+  border-color: transparent;
+  box-shadow: var(--primary-glow);
+  transform: translateY(-2px);
 }
 
 main {

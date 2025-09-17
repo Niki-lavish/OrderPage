@@ -152,8 +152,9 @@
   
   .category-section h2 {
     font-size: 1.8rem;
-    color: #333;
-    border-bottom: 2px solid #f57c00;
+    color: var(--primary-color);
+    text-shadow: 0 2px 4px rgba(255, 117, 168, 0.2);
+    border-bottom: 2px solid var(--accent-color);
     padding-bottom: 0.5rem;
     margin-bottom: 1.5rem;
   }
@@ -165,19 +166,21 @@
   }
   
   .menu-item-card {
-    background: #fff;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 15px;
     overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    box-shadow: var(--shadow-deep);
     cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: all 0.3s ease;
     display: flex;
     flex-direction: column;
   }
   
   .menu-item-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+    box-shadow: var(--shadow-lifted), 0 0 20px rgba(160, 196, 255, 0.5); /* Lifted and secondary glow */
   }
   
   .menu-item-image {
@@ -197,17 +200,19 @@
   .menu-item-details h3 {
     margin: 0 0 0.5rem;
     font-size: 1.1rem;
+    color: var(--text-color); /* As requested: Grayish color for item title */
   }
 
   .item-ingredients {
       font-size: 0.8rem;
-      color: #666;
+      color: var(--text-color);
+      opacity: 0.7;
       margin: 0 0 0.75rem;
       min-height: 3.2em; /* Reserve space for 3 lines */
   }
 
   .details-footer {
-      border-top: 1px solid #eee;
+      border-top: 1px solid var(--accent-color);
       padding-top: 0.75rem;
       margin-top: auto;
   }
@@ -215,7 +220,8 @@
   .item-price {
     font-size: 1.2rem;
     font-weight: bold;
-    color: #f57c00;
+    color: var(--primary-color); /* As requested: Pink for price */
+    text-shadow: 0 0 8px rgba(255, 117, 168, 0.5);
     margin: 0;
     text-align: right;
   }

@@ -76,7 +76,7 @@
               </template>
 
               <!-- 套餐升級 -->
-              <h5>套餐升級</h5>
+              <h5 v-if="setDetailedContents.some(c => isUpgradable(c.name))">套餐升級</h5>
               <div class="selection-group">
                   <template v-for="content in setDetailedContents" :key="content.name">
                       <div
@@ -348,47 +348,156 @@ const handleAddToCart = () => {
 
 <style scoped>
 /* --- Base & Layout --- */
-.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); display: flex; justify-content: center; align-items: center; z-index: 1000; }
-.modal-content { position: relative; background: #fff; border-radius: 15px; width: 90%; max-width: 500px; max-height: 90vh; display: flex; flex-direction: column; overflow: hidden; }
-.close-button { position: absolute; top: 10px; right: 10px; background: none; border: none; font-size: 2rem; cursor: pointer; color: #aaa; }
-.modal-item-image { width: 100%; height: 200px; object-fit: cover; }
-.modal-body { padding: 1rem 2rem; overflow-y: auto; }
-.modal-body h2 { margin-top: 0; }
-.item-ingredients-display { font-size: 0.9rem; color: #666; margin-top: -0.5rem; margin-bottom: 1rem; }
-.options-section h4 { margin: 1.5rem 0 1rem; font-size: 1.1rem; border-bottom: 1px solid #eee; padding-bottom: 0.5rem; }
-.modal-footer { display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; border-top: 1px solid #eee; }
+.modal-overlay { 
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(5px);
+  display: flex; justify-content: center; align-items: center; 
+  z-index: 1000; 
+}
+.modal-content { 
+  position: relative; 
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(15px);
+  border-radius: 20px; 
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  width: 90%; max-width: 500px; max-height: 90vh; 
+  display: flex; flex-direction: column; 
+  overflow: hidden;
+  box-shadow: var(--shadow-lifted);
+}
+.close-button { 
+  position: absolute; top: 15px; right: 15px; 
+  background: rgba(0,0,0,0.1); border-radius: 50%;
+  border: none; 
+  width: 30px; height: 30px; line-height: 30px;
+  font-size: 1.5rem; cursor: pointer; 
+  color: #fff;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+.close-button:hover { background: rgba(0,0,0,0.3); }
 
-/* --- Set Cards --- */
+.modal-item-image { width: 100%; height: 200px; object-fit: cover; }
+
+.modal-body { padding: 1rem 2rem; overflow-y: auto; }
+.modal-body h2 { margin-top: 0; color: var(--text-color); text-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+.item-ingredients-display { font-size: 0.9rem; color: var(--text-color); margin-top: -0.5rem; margin-bottom: 1rem; opacity: 0.8; }
+.options-section h4 { 
+  margin: 1.5rem 0 1rem; font-size: 1.1rem; 
+  border-bottom: 1px solid var(--accent-color);
+  padding-bottom: 0.5rem; 
+  color: var(--text-color); /* As requested: Gray */
+}
+.customization-area h5 { margin: 1.5rem 0 0.75rem; font-size: 1rem; color: var(--text-color); }
+
+.modal-footer { 
+  display: flex; justify-content: space-between; align-items: center; 
+  padding: 1rem 2rem; 
+  border-top: 1px solid var(--accent-color);
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* --- Interactive Elements Styling --- */
+.selection-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem; /* As requested: Add gap between selection tags */
+}
+
 .set-card-group { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.75rem; }
-.set-card { border: 2px solid #ddd; border-radius: 10px; padding: 1rem; text-align: center; cursor: pointer; transition: all 0.2s ease-in-out; background-color: #fff; }
-.set-card:hover { transform: translateY(-3px); box-shadow: 0 4px 10px rgba(0,0,0,0.08); }
-.set-card.active { border-color: #f57c00; color: #f57c00; background-color: #fff8e1; }
+.set-card, .selection-tag {
+  border: 1px solid transparent;
+  border-radius: 12px;
+  padding: 1rem;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.4);
+  transition: all 0.2s ease-in-out;
+}
+.selection-tag { padding: 0.5rem 1rem; border-radius: 20px; }
+
+.set-card:hover, .selection-tag:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 15px rgba(160, 196, 255, 0.6); /* Sky Blue Glow */
+  border-color: var(--secondary-color);
+}
+
+.set-card.active, .selection-tag.active {
+  background: var(--accent-color); /* Very pale pink */
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  box-shadow: 0 0 15px rgba(255, 117, 168, 0.5); /* Primary glow */
+  transform: translateY(-2px) scale(1.02);
+}
+
 .set-card-header { margin-bottom: 0.5rem; }
 .set-card-name { font-weight: 600; }
-.set-card-content { font-size: 0.8rem; color: #6c757d; }
-.set-card.active .set-card-content { color: #f57c00; }
-
-/* --- Customization Area --- */
-.customization-area { margin-top: 1rem; padding-top: 1rem; border-top: 1px dashed #ddd; }
-.customization-area h5 { margin: 0 0 0.75rem; font-size: 1rem; }
-
-/* --- Selection Tags --- */
-.selection-group { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-.selection-tag { padding: 0.5rem 1rem; border-radius: 20px; border: 1px solid #ddd; cursor: pointer; }
-.selection-tag.active { background-color: #f57c00; color: white; border-color: #f57c00; }
-.selection-tag .price-tag { margin-left: 0.5rem; }
-.upgrade-tag { font-size: 0.9rem; }
+.set-card-content { font-size: 0.8rem; color: #3e3c42; opacity: 0.7; }
+.set-card.active .set-card-content { color: var(--primary-color); opacity: 0.9;}
+.selection-tag .price-tag, .set-card-price { margin-left: 0.5rem; opacity: 0.8;}
+.set-card.active .price-tag, 
+.selection-tag.active .price-tag, 
+.set-card.active .set-card-price,
+.set-card.active .set-card-name,
+.selection-tag.active span {
+  color: var(--primary-color);
+  opacity: 1;
+  text-shadow: none;
+}
 
 /* --- Side Dish Section --- */
 .option-block { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; }
-.option-block .actions button { margin-left: 0.5rem; border: 1px solid #ddd; background: #fff; padding: 0.3rem 0.8rem; border-radius: 5px; cursor: pointer; }
-.option-block .actions button.active { background-color: #f57c00; color: white; }
-.option-block .actions button:disabled { background-color: #eee; color: #aaa; cursor: not-allowed; }
+.option-block .actions button {
+  margin-left: 0.5rem; border: 1px solid var(--accent-color); 
+  background: rgba(255, 255, 255, 0.4); 
+  padding: 0.3rem 0.8rem; border-radius: 8px; cursor: pointer;
+  transition: all 0.2s ease;
+}
+.option-block .actions button:hover:not(:disabled) { 
+  background: var(--secondary-color);
+  border-color: var(--secondary-color);
+  color: white;
+}
+.option-block .actions button.active { 
+  background: var(--accent-color); 
+  border-color: var(--primary-color);
+  color: var(--primary-color); 
+  box-shadow: 0 0 10px rgba(255, 117, 168, 0.4);
+}
+.option-block .actions button:disabled { background-color: rgba(200,200,200,0.2); color: rgba(0,0,0,0.3); cursor: not-allowed; }
 
 /* --- Footer Elements --- */
-.quantity-adjuster button { width: 30px; height: 30px; border-radius: 50%; border: 1px solid #ddd; background: white; font-size: 1rem; cursor: pointer; }
-.quantity-adjuster span { margin: 0 0.5rem; font-size: 1.2rem; }
-.total-price span { font-size: 1.5rem; font-weight: bold; color: #f57c00; }
-.actions button.btn-confirm { padding: 0.8rem 1.5rem; border: none; border-radius: 8px; font-size: 1rem; cursor: pointer; background-color: #f57c00; color: white; }
+.quantity-adjuster button {
+  width: 30px; height: 30px; border-radius: 50%; 
+  border: 1px solid var(--accent-color); 
+  background: rgba(255, 255, 255, 0.5);
+  font-size: 1rem; cursor: pointer;
+  transition: all 0.2s ease;
+}
+.quantity-adjuster button:hover:not(:disabled) { 
+  background: var(--secondary-color);
+  color: white;
+  border-color: var(--secondary-color);
+}
+.quantity-adjuster span { margin: 0 0.5rem; font-size: 1.2rem; font-weight: 700; }
+.total-price span { font-size: 1.5rem; font-weight: bold; color: var(--primary-color); text-shadow: 0 0 8px rgba(255, 117, 168, 0.5); }
+
+.btn-confirm {
+  /* Inherits from .btn-primary in App.vue */
+  background: linear-gradient(45deg, var(--primary-color), #ff8ab4);
+  border: none;
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border-radius: 50px;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: var(--shadow-deep);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+.btn-confirm:hover, .btn-confirm:focus {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: var(--shadow-lifted), var(--primary-glow);
+}
 
 </style>
